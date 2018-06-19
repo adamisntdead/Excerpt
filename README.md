@@ -1,4 +1,3 @@
 # TODO
 
 Write README
-Write USAGE

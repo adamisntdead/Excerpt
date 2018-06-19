@@ -22,7 +22,7 @@ $plugin_info = array(
 );
 
 /**
- * Weather Plugin
+ * Excerpt Plugin
  *
  * @package    ExpressionEngine
  * @subpackage Addons
@@ -39,10 +39,29 @@ class Excerpt
      */
     public function __construct()
     {
-        $parameter = ee()->TMPL->fetch_param('thing');
+        // Parameters
+        $allow_param = ee()->TMPL->fetch_param('allow');
+        $chars_param = ee()->TMPL->fetch_param('chars');
+        $words_param = ee()->TMPL->fetch_param('words'); 
+        $cutoff_param = ee()->TMPL->fetch_param('cutoff');
+        $append_param = ee()->TMPL->fetch_param('append');
 
-        
-        $this->return_data = "Hello, " . $parameter . "!";
+        // Get data
+        $content = ee()->TMPL->tagdata;
+
+        // Strip tags
+        $content = trim(strip_tags($content, $allow_param));
+
+
+        if (isset($chars_param) && $chars_param != "") {
+            $content = substr($content, 0, $chars_param);
+        } elseif (isset($words_param) && $words_param != "") {
+            $content = implode(' ', array_slice(explode(' ', $content), 0, $words_param));
+        } elseif (isset($cutoff_param) && $cutoff_param != "") {
+            $content = explode($cutoff_param, $content, 2)[0];
+        }
+
+        $this->return_data = $content . $append_param;
     }
 
     /**
@@ -56,7 +75,32 @@ class Excerpt
     public static function usage()
     {
         ob_start(); ?>
-    PUT USAGE HERE!
+        Excerpt is a plugin so you can make excerpts
+        of text really, really easily.
+        It can strip HTML content, add something (like '...')
+        to the end, and let you cutoff by words, characters
+        or a cutoff point.
+
+        To use Excerpt, just wrap your content with 
+        the {exp:excerpt} tag:
+
+        {exp:excerpt}
+        <h1>Some</h1> Amazing
+        <strong>Content!</strong>
+        {exp:excerpt}
+
+        Which will be turned into "Some Amazing Content!".  
+        
+        To use the other options, the following parameters 
+        are supported:
+
+        {exp:excerpt
+            chars = "" // Limit number of characters
+            words = "" // Limit number of words
+            cutoff = "" // Cutoff at a given string
+            append = "" // Add something to the end (eg. append="...")
+            allow = "" // Allow certain HTML tags (eg. allow="<p>")
+        }
 
         <?php
         $buffer = ob_get_contents();
