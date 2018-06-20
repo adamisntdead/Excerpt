@@ -1,4 +1,4 @@
-# Excerpt
+<div style="text-align:center"><img src="https://i.imgur.com/EBeTRKq.png" /></div>
 
 > An excerpt creation plugin for Expression Engine 3 & 4 🎉
 
