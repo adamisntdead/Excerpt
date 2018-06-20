@@ -44,3 +44,7 @@ are supported:
     allow = "" // Allow certain HTML tags (eg. allow="<p>")
 }
 ```
+
+## License
+
+MIT - Copyright (c) 2018 Adam Kelly
