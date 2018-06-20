@@ -16,7 +16,7 @@ $plugin_info = array(
     'pi_name'   => 'excerpt',
     'pi_version'  => '1.0.0',
     'pi_author'   => 'Adam Kelly',
-    'pi_author_url' => 'https://github.com/adamisntdead/ee-excerpt',
+    'pi_author_url' => 'https://github.com/adamisntdead/excerpt',
     'pi_description'=> 'Get excerpts of text, limit by character, strip HTML and more.',
     'pi_usage'    => ''
 );
