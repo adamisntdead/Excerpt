@@ -52,16 +52,26 @@ class Excerpt
         // Strip tags
         $content = trim(strip_tags($content, $allow_param));
 
-
+        $append = false;
+        
         if (isset($chars_param) && $chars_param != "") {
             $content = substr($content, 0, $chars_param);
+            $append = (strlen($content)>$chars_param);    
         } elseif (isset($words_param) && $words_param != "") {
-            $content = implode(' ', array_slice(explode(' ', $content), 0, $words_param));
+            $words = explode(' ', $content);
+            $content = implode(' ', array_slice($words, 0, $words_param));
+            $append = (count($words)>$words_param);
         } elseif (isset($cutoff_param) && $cutoff_param != "") {
-            $content = explode($cutoff_param, $content, 2)[0];
+            $exploded = explode($cutoff_param, $content, 2);
+            $content = $exploded[0];
+            $append = (count($exploded)>1);
         }
 
-        $this->return_data = $content . $append_param;
+        if ($append)
+        {
+            $content .= $append_param;
+        }
+        $this->return_data = $content;
     }
 
     /**
